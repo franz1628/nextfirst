@@ -1,0 +1,49 @@
+my-next-project/
+├── components/            # Componentes reutilizables
+│   ├── forms/             # Componentes relacionados con formularios
+│   │   ├── InputField.tsx
+│   │   ├── SelectField.tsx
+│   │   └── FormWrapper.tsx
+│   ├── layout/            # Componentes de diseño
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Sidebar.tsx
+│   │   └── MainLayout.tsx
+│   └── common/            # Otros componentes reutilizables
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       └── Modal.tsx
+├── pages/                 # Rutas del proyecto
+│   ├── api/               # Endpoints API (opcional)
+│   │   └── hello.ts
+│   ├── users/             # Subcarpeta para rutas relacionadas
+│   │   ├── index.tsx      # Página principal de usuarios (URL: /users)
+│   │   └── [id].tsx       # Página dinámica para un usuario (URL: /users/:id)
+│   ├── index.tsx          # Página de inicio (URL: /)
+│   ├── about.tsx          # Página "Acerca de" (URL: /about)
+│   ├── contact.tsx        # Página de contacto (URL: /contact)
+│   ├── _app.tsx           # Componente raíz para configuración global
+│   └── _document.tsx      # Documento HTML base
+├── public/                # Archivos estáticos (imágenes, fuentes, etc.)
+│   ├── images/
+│   │   ├── logo.png
+│   │   └── banner.jpg
+│   └── favicon.ico
+├── services/              # Lógica para interactuar con APIs u otros servicios
+│   ├── userService.ts
+│   └── apiClient.ts
+├── styles/                # Archivos de estilos
+│   ├── globals.css        # Estilos globales
+│   ├── variables.css      # Variables CSS
+│   └── components/        # Estilos específicos por componente
+│       ├── header.css
+│       └── button.css
+├── types/                 # Tipos TypeScript para el proyecto
+│   └── user.ts
+├── utils/                 # Funciones y utilidades generales
+│   ├── helpers.ts
+│   └── constants.ts
+├── .env                   # Variables de entorno
+├── next.config.js         # Configuración de Next.js
+├── tsconfig.json          # Configuración de TypeScript
+└── package.json           # Dependencias y scripts del proyecto esta 
