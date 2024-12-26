@@ -1,18 +1,26 @@
-export type PaisModel = {
-    id: number;
-    descripcion: string;
-    status: number;
-    created_at: Date;
-    updated_at: Date;
+export class PaisModel {
+    id: number=0;
+    descripcion: string='';
+    idPais: number=0;
+    status: number=1;
+    created_at: Date=new Date();
+    updated_at: Date=new Date();
+
+    toCreate(){
+        return {
+            descripcion: this.descripcion,
+            idPais: this.idPais,
+            status: this.status
+        }
+    }
+
+    toUpdate(){
+        return {
+            id: this.id,
+            descripcion: this.descripcion,
+            idPais: this.idPais,
+            status: this.status
+        }
+    }
 }
 
-export type PaisCreate = {
-    descripcion: string;
-    status: number;
-}
-
-export type PaisUpdate = {
-    id: number;
-    descripcion: string;
-    status: number;
-}

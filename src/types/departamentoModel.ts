@@ -1,3 +1,5 @@
+import { PaisModel } from "./paisModel";
+
 export class DepartamentoModel {
     id: number = 0;
     descripcion: string = '';
@@ -5,15 +7,17 @@ export class DepartamentoModel {
     status: number = 1;
     created_at: Date = new Date();
     updated_at: Date = new Date();
+    Pais:PaisModel = new PaisModel();
+    
 
-    create(){
+    toCreate(){
         return {
             descripcion: this.descripcion,
             idPais: this.idPais,
             status: this.status
         }
     }
-    update(){
+    toUpdate(){
         return {
             id: this.id,
             descripcion: this.descripcion,
@@ -21,26 +25,4 @@ export class DepartamentoModel {
             status: this.status
         }
     }
-}
-
-export class DepartamentoIni {
-    id: number = 0;
-    descripcion: string = "";
-    idPais: number = 0;
-    status: number = 1;
-    created_at: Date = new Date();
-    updated_at: Date = new Date();
-}
-
-export type DepartamentoCreate = {
-    descripcion: string;
-    idPais: number;
-    status: number;
-}
-
-export type DepartamentoUpdate = {
-    id: number;
-    descripcion: string;
-    idPais: number;
-    status: number;
 }

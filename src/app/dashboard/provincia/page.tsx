@@ -1,24 +1,11 @@
 'use client';
 
-
-import Table from "@/components/tables/Table";
-import Tbody from "@/components/tables/Tbody";
-import Td from "@/components/tables/Td";
-import Tr from "@/components/tables/Tr";
 import { ProvinciaService } from "@/services/provincia";
 import { ProvinciaModel } from "@/types/provinciaModel";
 import { useEffect, useState } from "react";
-import Button from "@/components/common/Button";
-import { BiPencil, BiSave, BiTrash } from "react-icons/bi";
-import { format } from "date-fns";
-import Badge from "@/components/common/Badge";
-import apiClient from "@/services/apiClient";
-import Form from "@/components/forms/Form";
-import InputField from "@/components/forms/InputField";
 import Loader from "@/components/loading/Loader";
 import { DepartamentoService } from "@/services/departamento";
 import { DepartamentoModel } from "@/types/departamentoModel";
-import SelectField from "@/components/forms/SelectField";
 import Swal from "sweetalert2";
 import ProvinciaList from "@/components/dashboard/provincia/ProvinciaList";
 import ProvinciaForm from "@/components/dashboard/provincia/ProvinciaForm";
@@ -57,7 +44,7 @@ export default function Provincia() {
     }
 
     const handleEditar = async (provincia: ProvinciaModel) => {
-        setModel(provincia);
+        setModel(Object.assign({}, provincia));
     };
 
     const handleEliminar = async (provincia: ProvinciaModel) => {

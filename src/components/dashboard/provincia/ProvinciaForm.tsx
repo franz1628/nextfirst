@@ -20,7 +20,7 @@ const ProvinciaForm: React.FC<ProvinciaFormProps> = ({ model, departamentos, onG
         setFormData(model);
     }, [model]);
 
-    const handleInputChange = (key: keyof ProvinciaModel, value: any) => {
+    const handleInputChange = (key: keyof ProvinciaModel, value: number|string) => {
         setFormData(Object.assign(new ProvinciaModel(), formData, { [key]: value }));
     };
 

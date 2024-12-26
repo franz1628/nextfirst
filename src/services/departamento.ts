@@ -8,12 +8,12 @@ export class DepartamentoService {
         return response.data
     }
 
-    static async create(data: DepartamentoModel): Promise<ApiResponse<DepartamentoModel>> {
+    static async create(data: Partial<DepartamentoModel>): Promise<ApiResponse<DepartamentoModel>> {
         const response = await apiClient.post("/departamento", data);
         return response.data
     }
 
-    static async update(id: number, data: DepartamentoModel): Promise<ApiResponse<DepartamentoModel>> {
+    static async update(id: number, data: Partial<DepartamentoModel>): Promise<ApiResponse<DepartamentoModel>> {
         const response = await apiClient.put(`/departamento/${id}`, data);
         return response.data
     }
