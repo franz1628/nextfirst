@@ -2,9 +2,10 @@
 
 const Loader = () => {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="border-t-4 border-white border-solid w-16 h-16 rounded-full animate-spin"></div>
-      </div>
+      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+      <span className="mt-4 text-blue-500 text-lg">Cargando...</span>
+    </div>
     );
   };
   

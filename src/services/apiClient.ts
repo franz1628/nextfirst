@@ -9,36 +9,28 @@ const apiClient = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+    withCredentials: true,
+    
 });
 
 apiClient.interceptors.request.use(
     (config) => {
-        Swal.fire({
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            didOpen: () => {
-              Swal.showLoading(); // Mostrar el loading
-            },
-          });
+        
         return config;
     },
     (error) => {
-        Swal.fire({});
+     
         return Promise.reject(error);
     }
 );
 
 apiClient.interceptors.response.use(
     (response) => {
-        Swal.close();
+        
         return response;
     },
     (error) => {
-        Swal.fire({
-            title: "Error",
-            icon: "error",
-            text: 'Error en el servidor',
-        });
+       
         return Promise.reject(error);
     }
 );

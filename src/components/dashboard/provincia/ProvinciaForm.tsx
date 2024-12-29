@@ -66,10 +66,10 @@ const ProvinciaForm: React.FC<ProvinciaFormProps> = ({ model, departamentos, onG
             </SelectField>
 
             <div className="flex justify-between">
-                <Button color="success" onClick={handleGuardar} icon={<BiSave />}>
+                <Button type="button" color="success" onClick={handleGuardar} icon={<BiSave />}>
                     Guardar
                 </Button>
-                <Button color="warning" onClick={handleNuevo} icon={<BiSave />}>
+                <Button type="button" color="warning" onClick={handleNuevo} icon={<BiSave />}>
                     Nuevo
                 </Button>
             </div>
