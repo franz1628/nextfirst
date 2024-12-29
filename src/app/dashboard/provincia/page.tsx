@@ -11,6 +11,9 @@ import ProvinciaForm from "@/components/dashboard/provincia/ProvinciaForm";
 import { useRouter } from "next/navigation";
 import apiClient from "@/services/apiClient";
 import Loader from "@/components/loading/Loader";
+import Button from "@/components/common/Button";
+import SelectField from "@/components/forms/SelectField";
+import Paginado from "@/components/common/Paginado";
 
 export default function Provincia() {
     const router = useRouter();
@@ -18,48 +21,32 @@ export default function Provincia() {
     const [departamentos, setDepartamentos] = useState<DepartamentoModel[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isLogin, setIsLogin] = useState<boolean>(false)
-
     const [model, setModel] = useState<ProvinciaModel>(new ProvinciaModel());
-
-
+    const [pageActual, setPageActual] = useState<number>(1);
+    const [totalPage, setTotalPage] = useState<number>(1);
+    const [numRegistros, setNumRegistros] = useState<number>(5);
 
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                await apiClient.get('/auth/validate');
-                setIsLogin(true);
-            } catch {
-                router.push('/auth/login');
-            }
-        };
-
-        checkAuth();
+        apiClient.get('/auth/validate').then(() => setIsLogin(true)).catch(() => router.push('/auth/login'));
     }, [router]);
 
     useEffect(() => {
-        loadProvincias();
+        loadProvincias(pageActual);
         loadDepartamentos();
-    }, []);
+    }, [pageActual,numRegistros]);
 
-    const loadProvincias = () => {
-        const getProvincias = async () => {
-            setIsLoading(true);
-            const res = await ProvinciaService.get();
-            setProvincias(res.data);
-            setIsLoading(false);
-
-        };
-        getProvincias();
+    const loadProvincias = async (pageActual:number) => {
+        setIsLoading(true);
+        const res = (await ProvinciaService.getPaginado(pageActual, numRegistros)).data;
+        setTotalPage(res.totalPages);
+        setProvincias(res.data);
+        setIsLoading(false);
     }
 
-    const loadDepartamentos = () => {
-        const getDepartamentos = async () => {
-            const res = await DepartamentoService.get();
-            setDepartamentos(res.data);
-            setIsLoading(false);
-
-        };
-        getDepartamentos();
+    const loadDepartamentos = async () => {
+        const res = await DepartamentoService.get();
+        setDepartamentos(res.data);
+        setIsLoading(false);
     }
 
     const handleEditar = async (provincia: ProvinciaModel) => {
@@ -76,8 +63,7 @@ export default function Provincia() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await ProvinciaService.delete(provincia.id);
-                loadProvincias();
-               
+                loadProvincias(pageActual);
             }
         });
     }
@@ -101,17 +87,13 @@ export default function Provincia() {
             Swal.fire({ title: res.message, icon: 'success' });
         }
         setModel(new ProvinciaModel());
-        loadProvincias();
+        loadProvincias(pageActual);
     }
 
     return (
         <>
-
             {
-                isLoading || !isLogin
-                    ?
-                    <Loader />
-                    :
+                isLogin &&
                     <div>
                         <h2 className="text-2xl font-semibold mb-4">Provincias</h2>
                         <hr className="mb-4" />
@@ -120,7 +102,23 @@ export default function Provincia() {
 
                         <br />
 
-                        <ProvinciaList provincias={provincias} onEditar={handleEditar} onEliminar={handleEliminar} />
+                        {
+                            isLoading 
+                                ? <Loader /> 
+                                :  
+                            <>
+                                <SelectField  label="Registros" onChange={(e)=>{setNumRegistros(+e.target.value);setPageActual(1)}} value={numRegistros.toString()}>
+                                    <option value="0">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </SelectField>
+
+                                <ProvinciaList provincias={provincias} onEditar={handleEditar} onEliminar={handleEliminar} />
+                                <Paginado pageActual={pageActual} totalPage={totalPage} onSetPageActual={setPageActual} />
+                            </>    
+                        }
+
                     </div>
             }
         </>

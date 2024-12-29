@@ -9,6 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <title>Nest</title>
+      </head>
       <body
         className={` antialiased flex flex-col min-h-screen`}
       >

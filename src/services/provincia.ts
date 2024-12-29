@@ -2,11 +2,24 @@
 import { ApiResponse } from "@/types/apiResponse";
 import apiClient from "./apiClient";
 import { ProvinciaModel } from "@/types/provinciaModel";
+import { ResponsePagination } from "@/types/responsePagination";
+
 
 export class ProvinciaService {
 
     static async get(): Promise<ApiResponse<ProvinciaModel[]>> {
         const response = await apiClient.get("/provincia");
+        
+        return response.data
+    }
+
+    static async getPaginado(page:number=1, limit:number=10): Promise<ApiResponse<ResponsePagination<ProvinciaModel[]>>> {
+        const response = await apiClient.get("/provincia/findAllPaginado",{
+            params : {
+                page,
+                limit
+            }
+        });
         
         return response.data
     }
