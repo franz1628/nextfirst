@@ -14,6 +14,8 @@ import Loader from "@/components/loading/Loader";
 import Button from "@/components/common/Button";
 import SelectField from "@/components/forms/SelectField";
 import Paginado from "@/components/common/Paginado";
+import InputField from "@/components/forms/InputField";
+import { BiSearch } from "react-icons/bi";
 
 export default function Provincia() {
     const router = useRouter();
@@ -25,19 +27,20 @@ export default function Provincia() {
     const [pageActual, setPageActual] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(1);
     const [numRegistros, setNumRegistros] = useState<number>(5);
+    const [buscar, setBuscar] = useState<string>('');
 
     useEffect(() => {
         apiClient.get('/auth/validate').then(() => setIsLogin(true)).catch(() => router.push('/auth/login'));
     }, [router]);
 
     useEffect(() => {
-        loadProvincias(pageActual);
+        loadProvincias();
         loadDepartamentos();
     }, [pageActual,numRegistros]);
 
-    const loadProvincias = async (pageActual:number) => {
+    const loadProvincias = async () => {
         setIsLoading(true);
-        const res = (await ProvinciaService.getPaginado(pageActual, numRegistros)).data;
+        const res = (await ProvinciaService.getPaginado(pageActual, numRegistros,buscar)).data;
         setTotalPage(res.totalPages);
         setProvincias(res.data);
         setIsLoading(false);
@@ -63,7 +66,7 @@ export default function Provincia() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 await ProvinciaService.delete(provincia.id);
-                loadProvincias(pageActual);
+                loadProvincias();
             }
         });
     }
@@ -87,7 +90,11 @@ export default function Provincia() {
             Swal.fire({ title: res.message, icon: 'success' });
         }
         setModel(new ProvinciaModel());
-        loadProvincias(pageActual);
+        loadProvincias();
+    }
+
+    const handleBuscar = () => {
+        loadProvincias()
     }
 
     return (
@@ -107,12 +114,24 @@ export default function Provincia() {
                                 ? <Loader /> 
                                 :  
                             <>
-                                <SelectField  label="Registros" onChange={(e)=>{setNumRegistros(+e.target.value);setPageActual(1)}} value={numRegistros.toString()}>
-                                    <option value="0">Seleccionar</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                </SelectField>
+                                <div className="grid grid-cols-12">
+                                    <div className="col-span-1">
+
+                                        <SelectField   onChange={(e)=>{setNumRegistros(+e.target.value);setPageActual(1)}} value={numRegistros.toString()}>
+                                            <option value="0">Seleccionar</option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                        </SelectField>
+                                    </div>
+                                    <div className="col-span-10 ml-3">
+                                        <InputField type="text" placeholder="Descripcion..." onChange={(e)=>{setBuscar(e.target.value)}} value={buscar}/>
+                                    </div>
+
+                                    <div className="col-span-1 mt-2 ml-3">
+                                        <Button type="button" color="success" icon={<BiSearch /> } onClick={handleBuscar}>Buscar</Button> 
+                                    </div>
+                                </div>
 
                                 <ProvinciaList provincias={provincias} onEditar={handleEditar} onEliminar={handleEliminar} />
                                 <Paginado pageActual={pageActual} totalPage={totalPage} onSetPageActual={setPageActual} />

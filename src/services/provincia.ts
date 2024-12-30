@@ -13,11 +13,12 @@ export class ProvinciaService {
         return response.data
     }
 
-    static async getPaginado(page:number=1, limit:number=10): Promise<ApiResponse<ResponsePagination<ProvinciaModel[]>>> {
+    static async getPaginado(page:number=1, limit:number=10,buscar:string): Promise<ApiResponse<ResponsePagination<ProvinciaModel[]>>> {
         const response = await apiClient.get("/provincia/findAllPaginado",{
             params : {
                 page,
-                limit
+                limit,
+                buscar
             }
         });
         
