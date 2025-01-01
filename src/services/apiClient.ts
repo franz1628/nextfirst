@@ -30,7 +30,13 @@ apiClient.interceptors.response.use(
         return response;
     },
     (error) => {
-       
+        console.log(error);
+        
+        Swal.fire({
+            title:'Advertencia',
+            text:error.response.data.message,
+
+        })
         return Promise.reject(error);
     }
 );
